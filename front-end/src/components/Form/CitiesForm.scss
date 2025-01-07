@@ -1,0 +1,15 @@
+form {
+    margin-top: 30px;
+
+    .form-control {
+
+        label {
+            margin-right: 10px;
+        }
+        input {
+            margin: 2px solid grey;
+            border-radius: 5px;
+            padding: 4px;
+        }
+    }
+}
