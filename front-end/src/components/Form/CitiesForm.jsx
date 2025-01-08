@@ -5,14 +5,17 @@ import './CitiesForm.scss'
 const CitiesForm = ({ onNewCityHandler }) => {
 
     const [name, setName] = useState('')
+    const [population, setPopulation] = useState('')
 
     const nameHandler = event => setName(event.target.value)
+    const populationHandler = event => setPopulation(event.target.value)
 
     const newCityHandler = event => {
         event.preventDefault()
 
         const newCity = {
-            name
+            name,
+            population
         }
 
         fetch(`${API_URL}/cities`, {
@@ -27,6 +30,7 @@ const CitiesForm = ({ onNewCityHandler }) => {
                 onNewCityHandler(createdCity)
 
                 setName('')
+                setPopulation('')
             })
     }
 
@@ -40,6 +44,15 @@ const CitiesForm = ({ onNewCityHandler }) => {
                     id='name'
                     value={name}
                     onChange={nameHandler}
+                />
+            </div>
+            <div className='form-control'>
+                <label htmlFor='population'>Population:</label>
+                <input 
+                    type='number'
+                    id='population'
+                    value={population}
+                    onChange={populationHandler}
                 />
             </div>
 
