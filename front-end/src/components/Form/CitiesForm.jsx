@@ -6,16 +6,24 @@ const CitiesForm = ({ onNewCityHandler }) => {
 
     const [name, setName] = useState('')
     const [population, setPopulation] = useState('')
+    const [continent, setContinent] = useState('')
+    const [country, setCountry] = useState('')
 
     const nameHandler = event => setName(event.target.value)
     const populationHandler = event => setPopulation(event.target.value)
+    const continentHandler = event => setContinent(event.target.value)
+    const countryHandler = event => setCountry(event.target.value)
 
     const newCityHandler = event => {
         event.preventDefault()
 
         const newCity = {
             name,
-            population
+            population,
+            location: {
+                continent,
+                country
+            },
         }
 
         fetch(`${API_URL}/cities`, {
@@ -31,6 +39,8 @@ const CitiesForm = ({ onNewCityHandler }) => {
 
                 setName('')
                 setPopulation('')
+                setContinent('')
+                setCountry('')
             })
     }
 
@@ -53,6 +63,24 @@ const CitiesForm = ({ onNewCityHandler }) => {
                     id='population'
                     value={population}
                     onChange={populationHandler}
+                />
+            </div>
+            <div className='form-control'>
+                <label htmlFor="continent">Continent:</label>
+                <input 
+                    type="text" 
+                    id='continent'
+                    value={continent}
+                    onChange={continentHandler}
+                />
+            </div>
+            <div className='form-control'>
+                <label htmlFor="country">Country:</label>
+                <input 
+                    type="text" 
+                    id='country'
+                    value={country}
+                    onChange={countryHandler}
                 />
             </div>
 
