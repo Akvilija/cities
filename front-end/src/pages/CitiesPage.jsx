@@ -4,7 +4,7 @@ import CitiesList from '../components/CitiesList/CitiesList';
 
 const CitiesPage = () => {
 
-    const [cities, setCities] = useState('');
+    const [cities, setCities] = useState([]);
 
     const newCityHandler = newCity => {
         setCities(prevState => [newCity, ...prevState])
