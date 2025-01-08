@@ -32,9 +32,9 @@ app.get('/cities', async (req, res) => {
 
 app.post('/cities', async (req, res) => {
     try {
-        const { name } = req.body
+        const { name, population } = req.body
 
-        if (!name) {
+        if (!name || !population) {
             return res.status(400).json({ error: 'City name is required' })
         }
 
@@ -47,6 +47,7 @@ app.post('/cities', async (req, res) => {
         const newCity = {
             _id: result.insertedId,
             name,
+            population
         }
 
         await connection.close()
