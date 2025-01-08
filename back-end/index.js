@@ -32,22 +32,27 @@ app.get('/cities', async (req, res) => {
 
 app.post('/cities', async (req, res) => {
     try {
-        const { name, population } = req.body
+        const { name, population, location } = req.body
 
-        if (!name || !population) {
-            return res.status(400).json({ error: 'City name is required' })
+        if (!name || !population || !location || !location.continent || !location.country) {
+            return res.status(400).json({ error: 'All fields required' })
         }
 
         const connection = await client.connect()
         const result = await connection
             .db('node-project')
             .collection('cities')
-            .insertOne({ name })
+            .insertOne({ 
+                name,
+                population,
+                location
+            })
 
         const newCity = {
             _id: result.insertedId,
             name,
-            population
+            population,
+            location
         }
 
         await connection.close()
