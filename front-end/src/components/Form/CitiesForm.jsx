@@ -10,12 +10,22 @@ const CitiesForm = ({ onNewCityHandler }) => {
     const [country, setCountry] = useState('')
 
     const nameHandler = event => setName(event.target.value)
-    const populationHandler = event => setPopulation(event.target.value)
+    const populationHandler = event => setPopulation(Number(event.target.value))
     const continentHandler = event => setContinent(event.target.value)
     const countryHandler = event => setCountry(event.target.value)
 
     const newCityHandler = event => {
         event.preventDefault()
+
+        if (!name || !population || !continent || !country) {
+            alert("All fields are required!");
+            return;
+        }
+    
+        if (isNaN(population) || Number(population) <= 0) {
+            alert("Population must be a positive number!");
+            return;
+        }
 
         const newCity = {
             name,
@@ -42,6 +52,9 @@ const CitiesForm = ({ onNewCityHandler }) => {
                 setContinent('')
                 setCountry('')
             })
+            .catch(err => {
+                alert(`Error: ${err.message}`);
+            });
     }
 
   return (
