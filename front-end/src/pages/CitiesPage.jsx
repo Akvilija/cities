@@ -30,10 +30,48 @@ const CitiesPage = () => {
         setCities(prevState => [newCity, ...prevState])
     }
 
+    const deleteCityHandler = async cityId => {
+      try {
+        await fetch(`http://localhost:3000/cities/${cityId}`, {
+          method: 'DELETE',
+        })
+
+        setCities(prevState => prevState.filter(city => city._id !== cityId))
+      } catch (err) {
+        console.error('Error deleting city:', err)
+      }
+    }
+
+    const editCityHandler = async updatedCity => {
+      try {
+        const response = await fetch(`http://localhost:3000/cities/${updatedCity.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updatedCity),
+        })
+
+        if (!response.ok) {
+          throw new Error('Failed to edit city');
+        }
+
+        const data = await response.json()
+
+        setCities(prevState => prevState.map(city => console.log(city.id)))
+      } catch (err) {
+      console.error('Error editing city:', err);
+      }
+    }
+ 
   return (
     <div>
         <CitiesForm onNewCityHandler={newCityHandler} />
-        <CitiesList data={cities} />
+        <CitiesList 
+          data={cities} 
+          onDelete={deleteCityHandler}
+          onEdit={editCityHandler}
+        />
     </div>
   )
 }
