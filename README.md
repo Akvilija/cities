@@ -11,4 +11,4 @@ In this project cities can be added, edited, deleted. To create this project was
 ~Frontend: React + Vite
 ~Backend: node.js
 ~Styling: SCSS
-~Programming Langue: JavaScript
+~Programming Language: JavaScript
