@@ -5,7 +5,7 @@ async function getAllCities() {
     try {
         const db = getDB()
         const collection = db.collection('cities')
-        const categories = await collection.find().toArray()
+        const categories = await collection.find().sort({ _id: -1 }).toArray()
         return categories
     } catch (error) {
         console.error('Failed to get cities:', error)
@@ -19,7 +19,13 @@ async function createCity(newCity) {
         const db = getDB()
         const collection = db.collection('cities')
         const result = await collection.insertOne(newCity)
-        return result
+        
+        if (result.acknowledged) {
+            const newCity = await db.collection('cities').findOne({ _id: result.insertedId })
+            return newCity
+        } else {
+            throw new Error('Failed to create city')
+        }
     } catch (error) {
         console.error('Failed to create city:', error)
         throw new Error('Failed to create city')
@@ -30,16 +36,17 @@ async function updateCity(id, updatedCity) {
     try {
         const db = getDB()
         const collection = db.collection('cities')
-        const result = await collection.updateOne(
+        const result = await collection.findOneAndUpdate(
             { _id: ObjectId.createFromHexString(id) }, 
-            { $set: updatedCity }
+            { $set: updatedCity },
+            { returnDocument: 'after' }
         )  
 
         if (result.matchedCount === 0) {
             throw new Error("City not found")
         }
 
-        return { message: "City updated successfully" }
+        return result
     } catch (error) {
         console.error(`Failed to update city with ID: ${id}`, error)
         throw new Error('Failed to update city')

@@ -1,13 +1,27 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { API_URL } from '../../config'
 import './CitiesForm.scss'
 
-const CitiesForm = ({ onNewCityHandler }) => {
+const CitiesForm = ({ onNewCityHandler, onEditCityHandler, cityToEdit, onCancelEdit }) => {
 
     const [name, setName] = useState('')
     const [population, setPopulation] = useState('')
     const [continent, setContinent] = useState('')
     const [country, setCountry] = useState('')
+
+    useEffect(() => {
+        if (cityToEdit) {
+            setName(cityToEdit.name)
+            setPopulation(cityToEdit.population)
+            setContinent(cityToEdit.location?.continent || '')
+            setCountry(cityToEdit.location?.country || '')
+        } else {
+            setName('')
+            setPopulation('')
+            setContinent('')
+            setCountry('')
+        }
+    }, [cityToEdit])
 
     const nameHandler = event => setName(event.target.value)
     const populationHandler = event => setPopulation(Number(event.target.value))
@@ -18,16 +32,16 @@ const CitiesForm = ({ onNewCityHandler }) => {
         event.preventDefault()
 
         if (!name || !population || !continent || !country) {
-            alert("All fields are required!");
-            return;
+            alert("All fields are required!")
+            return
         }
     
         if (isNaN(population) || Number(population) <= 0) {
-            alert("Population must be a positive number!");
-            return;
+            alert("Population must be a positive number!")
+            return
         }
 
-        const newCity = {
+        const cityData = {
             name,
             population,
             location: {
@@ -36,25 +50,42 @@ const CitiesForm = ({ onNewCityHandler }) => {
             },
         }
 
-        fetch(`${API_URL}/cities`, {
-            method: 'POST',
-            body: JSON.stringify(newCity),
-            headers: {
-              'Content-type': 'application/json; charset=UTF-8',
-            },
-        })
-            .then(res => res.json())
-            .then(createdCity => {
-                onNewCityHandler(createdCity)
-
-                setName('')
-                setPopulation('')
-                setContinent('')
-                setCountry('')
+        if (cityToEdit) {
+            fetch(`${API_URL}/cities/${cityToEdit._id}`, {
+                method: 'PUT',
+                body: JSON.stringify(cityData),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
             })
-            .catch(err => {
-                alert(`Error: ${err.message}`);
-            });
+                .then(res => res.json())
+                .then(updatedCity => {
+                    onEditCityHandler(updatedCity);
+                })
+                .catch(error => {
+                    console.log(`Error updating city: ${error.message}`)
+                });
+        } else {
+            fetch(`${API_URL}/cities`, {
+                method: 'POST',
+                body: JSON.stringify(cityData),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            })
+                .then((res) => res.json())
+                .then(createdCity => {
+                    onNewCityHandler(createdCity)
+                })
+                .catch(error => {
+                    alert(`Error: ${error.message}`);
+                })
+        }
+
+        setName('')
+        setPopulation('')
+        setContinent('')
+        setCountry('')
     }
 
   return (
@@ -97,7 +128,8 @@ const CitiesForm = ({ onNewCityHandler }) => {
                 />
             </div>
 
-            <button type='submit'>Add City</button>
+            <button type='submit'>{cityToEdit? 'Update City' : 'Add City'}</button>
+            {cityToEdit && <button type='button' onClick={onCancelEdit}>Cancel</button>}
         </form>
     </div>
   )
