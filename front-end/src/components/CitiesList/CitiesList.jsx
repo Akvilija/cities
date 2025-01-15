@@ -9,7 +9,7 @@ const CitiesList = ({ data, onEdit, onDelete }) => {
 
   return (
     <div>
-        <h2>Cars list:</h2>
+        <h2>Cities list:</h2>
             {data.map(city => (
                 <CityItem 
                   key={city._id} 

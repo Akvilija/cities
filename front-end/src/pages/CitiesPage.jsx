@@ -4,7 +4,8 @@ import CitiesList from '../components/CitiesList/CitiesList';
 
 const CitiesPage = () => {
 
-    const [cities, setCities] = useState([]);
+    const [cities, setCities] = useState([])
+    const [cityToEdit, setCityToEdit] = useState(null)
 
     useEffect(() => {
       const fetchCities = async () => {
@@ -43,13 +44,15 @@ const CitiesPage = () => {
     }
 
     const editCityHandler = async updatedCity => {
+      const { _id, ...cityData } = updatedCity
+      
       try {
-        const response = await fetch(`http://localhost:3000/cities/${updatedCity.id}`, {
+        const response = await fetch(`http://localhost:3000/cities/${updatedCity._id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(updatedCity),
+          body: JSON.stringify(cityData),
         })
 
         if (!response.ok) {
@@ -57,20 +60,36 @@ const CitiesPage = () => {
         }
 
         const data = await response.json()
+        
+        setCities(prevState => prevState.map(city => city._id === data._id ? data : city))
 
-        setCities(prevState => prevState.map(city => console.log(city.id)))
+        setCityToEdit(null)
       } catch (err) {
-      console.error('Error editing city:', err);
+        console.error('Error editing city:', err);
       }
     }
+
+    const startEditHandler = (city) => {
+      setCityToEdit(city); // Set the city to be edited
+    };
+  
+    // Cancel editing
+    const cancelEditHandler = () => {
+      setCityToEdit(null); // Clear the city being edited
+    };
  
   return (
     <div>
-        <CitiesForm onNewCityHandler={newCityHandler} />
+        <CitiesForm 
+          onNewCityHandler={newCityHandler} 
+          onEditCityHandler={editCityHandler}
+          cityToEdit={cityToEdit}
+          onCancelEdit={cancelEditHandler}
+        />
         <CitiesList 
           data={cities} 
           onDelete={deleteCityHandler}
-          onEdit={editCityHandler}
+          onEdit={startEditHandler}
         />
     </div>
   )
