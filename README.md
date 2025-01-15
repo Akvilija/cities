@@ -10,5 +10,5 @@ Currently, two official plugins are available:
 In this project cities can be added, edited, deleted. To create this project was used:
 ~Frontend: React + Vite
 ~Backend: node.js
-~Styling: SASS
+~Styling: SCSS
 ~Programming Langue: JavaScript
