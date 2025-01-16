@@ -1,9 +1,11 @@
+import './CityItem.scss'
+
 const CityItem = ({ data, onEdit, onDelete }) => {
 
     const { name, population, location} = data
     const { continent, country } = location
   return (
-    <div>
+    <div className='city-item-container'>
         <ul>
             {name && <li>Name: {name}</li>}
             {population && <li>Population: {population}</li>}

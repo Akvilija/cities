@@ -1,5 +1,6 @@
 import React from 'react'
-import CityItem from '../CityItem/CityItem';
+import CityItem from '../CityItem/CityItem'
+import './CityList.scss'
 
 const CitiesList = ({ data, onEdit, onDelete }) => {
 
@@ -8,17 +9,19 @@ const CitiesList = ({ data, onEdit, onDelete }) => {
   }
 
   return (
-    <div>
-        <h2>Cities list:</h2>
-            {data.map(city => (
+    <>
+      <h2>Cities list:</h2>
+        <div className="city-list-container">
+          {data.map(city => (
                 <CityItem 
                   key={city._id} 
                   data={city} 
                   onEdit={onEdit}
                   onDelete={onDelete}
                 />
-            ))}
-    </div>
+            ))}    
+        </div>
+    </>
   )
 }
 
