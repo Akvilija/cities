@@ -1,11 +1,21 @@
-import { NavLink } from "react-router"
+import { useState } from 'react'
+import { NavLink } from 'react-router'
 import './Header.scss'
 
 const Header = () => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+    const toggleMenu = () => {
+        setIsMenuOpen(prevState => !prevState)
+    }
+
   return (
     <header>
         <nav>
-            <ul className='menu-list'>
+            <button className='hamburger' onClick={toggleMenu}>
+                ☰
+            </button>
+            <ul className={`menu-list ${isMenuOpen ? 'open' : ''}`}>
                 <li>
                     <NavLink to='/'>
                         home

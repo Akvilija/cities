@@ -1,3 +1,9 @@
+@mixin respondTo($breakpoint) {
+  @media (max-width: $breakpoint) {
+    @content;
+  }
+}
+
 header {
   background-color: var(--primary-color);
   padding: var(--header-padding);
@@ -5,6 +11,20 @@ header {
   nav {
     max-width: 1500px;
     margin: 0 auto;
+    position: relative;
+
+    .hamburger {
+      display: none; 
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: var(--text-color);
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+    }
 
     .menu-list {
       list-style: none;
@@ -16,19 +36,47 @@ header {
 
       li {
         a {
-            text-decoration: none;
-            color: var(--text-color);
-            font-weight: bold;
-            text-transform: capitalize;
-            transition: color 0.3s ease;
-            
-            &:hover {
-                color: var(--hover-color);  
-            }
+          text-decoration: none;
+          color: var(--text-color);
+          font-weight: bold;
+          text-transform: capitalize;
+          transition: color 0.3s ease;
 
-            &:active {
-                text-decoration: underline;
-            }
+          &:hover {
+            color: var(--hover-color);
+          }
+
+          &:active {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
+    @include respondTo(720px) {
+      .hamburger {
+        display: block;
+      }
+
+      .menu-list {
+        display: none;
+        flex-direction: column;
+        background-color: var(--primary-color);
+        position: absolute;
+        top: 100%;
+        right: 0;
+        left: 0;
+        padding: 10px;
+        border-top: 2px solid var(--hover-color);
+
+        &.open {
+          display: flex;
+          margin-top: 16px;
+        }
+
+        li {
+          margin: 10px 0;
+          text-align: center;
         }
       }
     }
