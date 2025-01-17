@@ -9,6 +9,10 @@ const Header = () => {
         setIsMenuOpen(prevState => !prevState)
     }
 
+    const closeMenu = () => {
+        setIsMenuOpen(false)
+    }
+
   return (
     <header>
         <nav>
@@ -17,12 +21,12 @@ const Header = () => {
             </button>
             <ul className={`menu-list ${isMenuOpen ? 'open' : ''}`}>
                 <li>
-                    <NavLink to='/'>
+                    <NavLink to='/' onClick={closeMenu}>
                         home
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to='/cities'>
+                    <NavLink to='/cities' onClick={closeMenu}>
                         cities
                     </NavLink>
                 </li>
