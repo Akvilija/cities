@@ -8,6 +8,7 @@ const CitiesForm = ({ onNewCityHandler, onEditCityHandler, cityToEdit, onCancelE
     const [population, setPopulation] = useState('')
     const [continent, setContinent] = useState('')
     const [country, setCountry] = useState('')
+    const [photo, setPhoto] = useState('')
 
     useEffect(() => {
         if (cityToEdit) {
@@ -15,11 +16,13 @@ const CitiesForm = ({ onNewCityHandler, onEditCityHandler, cityToEdit, onCancelE
             setPopulation(cityToEdit.population)
             setContinent(cityToEdit.location?.continent || '')
             setCountry(cityToEdit.location?.country || '')
+            setPhoto(cityToEdit.photo)
         } else {
             setName('')
             setPopulation('')
             setContinent('')
             setCountry('')
+            setPhoto('')
         }
     }, [cityToEdit])
 
@@ -27,11 +30,12 @@ const CitiesForm = ({ onNewCityHandler, onEditCityHandler, cityToEdit, onCancelE
     const populationHandler = event => setPopulation(Number(event.target.value))
     const continentHandler = event => setContinent(event.target.value)
     const countryHandler = event => setCountry(event.target.value)
+    const photoHandler = event => setPhoto(event.target.value)
 
     const newCityHandler = event => {
         event.preventDefault()
 
-        if (!name || !population || !continent || !country) {
+        if (!name || !population || !continent || !country || !photo) {
             alert("All fields are required!")
             return
         }
@@ -48,6 +52,7 @@ const CitiesForm = ({ onNewCityHandler, onEditCityHandler, cityToEdit, onCancelE
                 continent,
                 country
             },
+            photo,
         }
 
         if (cityToEdit) {
@@ -86,6 +91,7 @@ const CitiesForm = ({ onNewCityHandler, onEditCityHandler, cityToEdit, onCancelE
         setPopulation('')
         setContinent('')
         setCountry('')
+        setPhoto('')
     }
 
   return (
@@ -125,6 +131,15 @@ const CitiesForm = ({ onNewCityHandler, onEditCityHandler, cityToEdit, onCancelE
                     id='country'
                     value={country}
                     onChange={countryHandler}
+                />
+            </div>
+            <div className='form-control'>
+                <label htmlFor="photo">Photo URL:</label>
+                <input 
+                    type="text" 
+                    id='photo'
+                    value={photo}
+                    onChange={photoHandler}
                 />
             </div>
 

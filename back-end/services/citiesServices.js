@@ -5,8 +5,8 @@ async function getAllCities() {
     try {
         const db = getDB()
         const collection = db.collection('cities')
-        const categories = await collection.find().sort({ _id: -1 }).toArray()
-        return categories
+        const result = await collection.find().sort({ _id: -1 }).toArray()
+        return result
     } catch (error) {
         console.error('Failed to get cities:', error)
         throw new Error('Failed to get cities')

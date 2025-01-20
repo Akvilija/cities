@@ -70,12 +70,12 @@ const CitiesPage = () => {
     }
 
     const startEditHandler = (city) => {
-      setCityToEdit(city); // Set the city to be edited
+      setCityToEdit(city); 
     };
   
     // Cancel editing
     const cancelEditHandler = () => {
-      setCityToEdit(null); // Clear the city being edited
+      setCityToEdit(null); 
     };
  
   return (
