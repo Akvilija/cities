@@ -14,6 +14,18 @@ async function getAllCities() {
     
 }
 
+async function getCityById(id) {
+    try {
+        const db = getDB()
+        const collection = db.collection('cities')
+        const result = await collection.findOne({ _id: ObjectId.createFromHexString(id) })
+        return result
+    } catch (error) {
+        console.error('Failed to get city:', error)
+        throw new Error('Failed to get city')
+    }
+}
+
 async function createCity(newCity) {
     try {
         const db = getDB()
@@ -72,7 +84,8 @@ async function deleteCity(id) {
 }
 
 module.exports = { 
-    getAllCities, 
+    getAllCities,
+    getCityById, 
     createCity, 
     updateCity, 
     deleteCity }

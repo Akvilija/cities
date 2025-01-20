@@ -1,5 +1,6 @@
 import React from 'react'
 import CityItem from '../CityItem/CityItem'
+import { Link } from "react-router-dom";
 import './CityList.scss'
 
 const CitiesList = ({ data, onEdit, onDelete }) => {
@@ -13,12 +14,13 @@ const CitiesList = ({ data, onEdit, onDelete }) => {
       <h2>Cities list:</h2>
         <div className="city-list-container">
           {data.map(city => (
-                <CityItem 
-                  key={city._id} 
+            <Link to={`/cities/${city._id}`} key={city._id} >
+              <CityItem 
                   data={city} 
                   onEdit={onEdit}
                   onDelete={onDelete}
                 />
+            </Link>    
             ))}    
         </div>
     </>
