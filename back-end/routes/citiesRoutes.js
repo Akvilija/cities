@@ -1,6 +1,7 @@
 const express = require('express')
 const {
     getAllCities,
+    getCityById,
     createCity,
     updateCity,
     deleteCity
@@ -14,6 +15,16 @@ router.get('/cities', async (req, res) => {
         res.status(200).json(cities)
     } catch (error) {
         res.status(500).json({ error: 'Failed to get cities' })
+    }
+})
+
+router.get('/cities/:id', async (req, res) => {
+    try {
+        const { id } = req.params
+        const city = await getCityById(id)
+        res.status(200).json(city)
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to get city' })
     }
 })
 
