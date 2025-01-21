@@ -1,7 +1,7 @@
 import './CityItem.scss'
 import cityLogo from '../../images/city-logo.png'
 
-const CityItem = ({ data, onEdit, onDelete }) => {
+const CityItem = ({ data, onDelete }) => {
 
     const { name, population, location } = data
     const { continent, country } = location
@@ -19,9 +19,6 @@ const CityItem = ({ data, onEdit, onDelete }) => {
         </div>
       </div>
       <div>
-        <button onClick={() => onEdit(data)}>
-          Edit
-        </button>
         <button onClick={() => onDelete(data._id)}>
           Delete
         </button>

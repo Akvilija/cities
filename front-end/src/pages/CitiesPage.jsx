@@ -43,53 +43,14 @@ const CitiesPage = () => {
       }
     }
 
-    const editCityHandler = async updatedCity => {
-      const { _id, ...cityData } = updatedCity
-      
-      try {
-        const response = await fetch(`http://localhost:3000/cities/${updatedCity._id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(cityData),
-        })
-
-        if (!response.ok) {
-          throw new Error('Failed to edit city');
-        }
-
-        const data = await response.json()
-        
-        setCities(prevState => prevState.map(city => city._id === data._id ? data : city))
-
-        setCityToEdit(null)
-      } catch (err) {
-        console.error('Error editing city:', err);
-      }
-    }
-
-    const startEditHandler = (city) => {
-      setCityToEdit(city); 
-    };
-  
-    // Cancel editing
-    const cancelEditHandler = () => {
-      setCityToEdit(null); 
-    };
- 
   return (
     <div>
         <CitiesForm 
           onNewCityHandler={newCityHandler} 
-          onEditCityHandler={editCityHandler}
-          cityToEdit={cityToEdit}
-          onCancelEdit={cancelEditHandler}
         />
         <CitiesList 
           data={cities} 
           onDelete={deleteCityHandler}
-          onEdit={startEditHandler}
         />
     </div>
   )

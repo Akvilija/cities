@@ -3,7 +3,7 @@ import CityItem from '../CityItem/CityItem'
 import { Link } from "react-router-dom";
 import './CityList.scss'
 
-const CitiesList = ({ data, onEdit, onDelete }) => {
+const CitiesList = ({ data, onDelete }) => {
 
   if (!data || data.length === 0) {
     return <h2>No cities yet</h2>;
@@ -17,7 +17,6 @@ const CitiesList = ({ data, onEdit, onDelete }) => {
             <Link to={`/cities/${city._id}`} key={city._id} >
               <CityItem 
                   data={city} 
-                  onEdit={onEdit}
                   onDelete={onDelete}
                 />
             </Link>    

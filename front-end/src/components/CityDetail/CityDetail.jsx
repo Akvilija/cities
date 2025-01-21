@@ -1,6 +1,6 @@
 import './CityDetail.scss'
 
-const CityDetail = ({ city }) => {
+const CityDetail = ({ city, onEdit }) => {
     if (!city || Object.keys(city).length === 0) {
         return <h1>No city data available</h1>
     }
@@ -14,6 +14,7 @@ const CityDetail = ({ city }) => {
                 <li>Country: {city.location?.country || 'Unknown'}</li>
             </ul>
             {city.photo && <img src={city.photo} alt={city.name} />}
+            <button onClick={onEdit}>Edit</button>
         </div>
     )
 }
